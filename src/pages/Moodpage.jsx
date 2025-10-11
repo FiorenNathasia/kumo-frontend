@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Box, Link, Typography, TextField, Stack, Button } from "@mui/material";
 import MoodSelector from "../components/MoodSelector/MoodSelector";
@@ -8,6 +9,7 @@ function Moodpage() {
   const [journal, setJournal] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const handleJournal = (newJournal) => {
     setJournal(newJournal);
@@ -17,18 +19,19 @@ function Moodpage() {
     setIsSaving(true);
     const token = localStorage.getItem("accessToken");
     const entry = {
-      selectedMoods,
-      journal,
+      text: journal,
+      moods: selectedMoods,
     };
     try {
       const { data } = await axios.post(
-        `${import.meta.env / VITE_API_URL}/api/entry/newentry`,
+        `${import.meta.env.VITE_API_URL}/api/entry/newentry`,
         entry,
         { headers: { Authorization: "Bearer " + token } }
       );
+      console.log("API URL:", import.meta.env.VITE_API_URL);
       navigate("/");
     } catch (error) {
-      setError(error.respose.data.message);
+      console.log(error);
     }
     setIsSaving(false);
   };
@@ -51,13 +54,33 @@ function Moodpage() {
           sx={{
             display: "flex",
             flexDirection: "column",
-            outline: "2px red solid",
+            outline: "2px green solid",
+            width: { xs: 340, md: 500 },
           }}
         >
-          <MoodSelector
-            selectedMoods={selectedMoods}
-            setSelectedMoods={setSelectedMoods}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              outline: "2px red solid",
+            }}
+          >
+            <MoodSelector
+              selectedMoods={selectedMoods}
+              setSelectedMoods={setSelectedMoods}
+            />
+          </Box>
+          <TextField
+            variant="outlined"
+            fullWidth
+            multiline
+            minRows={4}
+            value={journal}
+            onChange={(e) => setJournal(e.target.value)}
           />
+          <Button variant="contained" onClick={handleSubmit}>
+            Submit
+          </Button>
         </Box>
       </Box>
     </>
