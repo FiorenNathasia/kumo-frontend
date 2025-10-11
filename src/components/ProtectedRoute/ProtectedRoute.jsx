@@ -3,7 +3,7 @@ import { useNavigate, Outlet } from "react-router-dom";
 import { Typography, Box } from "@mui/material";
 
 function ProtectedRoute() {
-  const token = localStorage.getItem("acessToken");
+  const token = localStorage.getItem("accessToken");
   const navigate = useNavigate();
 
   useEffect(() => {
