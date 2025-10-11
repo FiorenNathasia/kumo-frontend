@@ -16,9 +16,29 @@ function ProtectedRoute() {
 
   if (!token) {
     return (
-      <Box>
-        <Typography>You are not authorised!</Typography>
-        <Typography>You will be taken to the login page...</Typography>
+      <Box
+        sx={{
+          width: "100vw",
+          height: "100vh",
+          backgroundColor: "lightblue",
+          position: "relative",
+          overflow: "hidden",
+          justifyContent: "center",
+          alignItems: "center",
+          display: "flex",
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+        >
+          <Typography>You are not authorised!</Typography>
+          <Typography>You will be taken to the login page...</Typography>
+        </Box>
       </Box>
     );
   }
