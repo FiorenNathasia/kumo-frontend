@@ -23,13 +23,16 @@ function Moodpage() {
       moods: selectedMoods,
     };
     try {
-      const { data } = await axios.post(
+      const res = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/entry/newentry`,
         entry,
         { headers: { Authorization: "Bearer " + token } }
       );
+
+      const { journalEntryId } = res.data;
       console.log("API URL:", import.meta.env.VITE_API_URL);
-      navigate("/");
+
+      navigate(`/${journalEntryId}`);
     } catch (error) {
       console.log(error);
     }
