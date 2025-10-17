@@ -1,7 +1,8 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Box, Link, Typography, TextField, Stack, Button } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import MoodTasksList from "../components/MoodTasksLists/MoodTasksList";
 
 function Dashboard() {
   const { id } = useParams();
@@ -26,6 +27,7 @@ function Dashboard() {
         );
         setData(response.data);
         console.log(response.data);
+        console.log(response.data.tasks);
       } catch (error) {
         console.log(error);
       }
@@ -42,6 +44,7 @@ function Dashboard() {
     <>
       <Box>
         <Typography>{data.recommendation.message}</Typography>
+        <MoodTasksList tasks={data.tasks} />
       </Box>
     </>
   );
