@@ -18,6 +18,10 @@ function BottomNavigationTab() {
     navigate("/");
   };
 
+  const taskpage = () => {
+    navigate("/addtask");
+  };
+
   const moodpage = () => {
     navigate("/mood");
   };
@@ -44,7 +48,7 @@ function BottomNavigationTab() {
         />
         <BottomNavigationAction
           label="Add Task"
-          value="Add Task"
+          value={taskpage}
           icon={<AddCircleIcon />}
         />
         <BottomNavigationAction
