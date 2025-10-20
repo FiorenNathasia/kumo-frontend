@@ -1,9 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import Dashboard from "./pages/Dashboard";
+import MoodDashboard from "./pages/MoodDashboard";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import Moodpage from "./pages/Moodpage";
+import Homepage from "./pages/Homepage";
 
 function App() {
   return (
@@ -13,8 +14,9 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route element={<ProtectedRoute />}>
-            <Route path="/:id" element={<Dashboard />} />
             <Route path="/mood" element={<Moodpage />} />
+            <Route path="/:id" element={<MoodDashboard />} />
+            <Route path="/" element={<Homepage />} />
           </Route>
         </Routes>
       </BrowserRouter>

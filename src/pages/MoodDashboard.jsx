@@ -4,7 +4,7 @@ import axios from "axios";
 import { Box, Typography } from "@mui/material";
 import MoodTasksList from "../components/MoodTasksLists/MoodTasksList";
 
-function Dashboard() {
+function MoodDashboard() {
   const { id } = useParams();
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -42,12 +42,34 @@ function Dashboard() {
 
   return (
     <>
-      <Box>
-        <Typography>{data.recommendation.message}</Typography>
-        <MoodTasksList tasks={data.tasks} />
+      <Box
+        sx={{
+          width: "100vw",
+          height: "100vh",
+          backgroundColor: "lightblue",
+          position: "relative",
+          overflow: "hidden",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Box
+          sx={{
+            outline: "2px green solid",
+            width: { xs: 340, md: 500 },
+            maxHeight: "90vh",
+            overflow: "auto",
+          }}
+        >
+          <Typography sx={{ outline: "red solid 2px" }}>
+            {data.recommendation.message}
+          </Typography>
+          <MoodTasksList tasks={data.tasks} />
+        </Box>
       </Box>
     </>
   );
 }
 
-export default Dashboard;
+export default MoodDashboard;

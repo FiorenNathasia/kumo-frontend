@@ -13,13 +13,11 @@ import {
 } from "@mui/material";
 import MoodTask from "../MoodTask/MoodTask";
 
-function MoodTasksList({ tasks = [] }) {
-  const [tasksList, setTasksList] = useState(tasks);
-
+function MoodTasksList({ tasks }) {
   return (
     <>
       <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
-        {tasksList.map((task) => {
+        {tasks.map((task) => {
           return <MoodTask key={task.id} task={task} />;
         })}
       </List>
