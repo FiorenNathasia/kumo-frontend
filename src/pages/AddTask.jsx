@@ -2,11 +2,9 @@ import {
   Box,
   Checkbox,
   FormControl,
-  FormHelperText,
   InputLabel,
   MenuItem,
   Select,
-  Stack,
   TextField,
   Typography,
   Button,
@@ -34,6 +32,30 @@ function AddTask() {
       target: { value },
     } = event;
     setCategoryName(typeof value === "string" ? value.split(",") : value);
+  };
+  const handleSubmit = async () => {
+    setIsSaving(true);
+    const token = localStorage.getItem("accessToken");
+    const task = {
+      title,
+      categories: categoryName,
+      difficulty,
+      deadline: date,
+      notes,
+    };
+    try {
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/task/newtask`,
+        task,
+        {
+          headers: { Authorization: "Bearer " + token },
+        }
+      );
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+    setIsSaving(false);
   };
 
   const difficultyLevel = ["easy", "medium", "hard"];
@@ -181,7 +203,9 @@ function AddTask() {
             minRows={4}
             onChange={(e) => setNotes(e.target.value)}
           />
-          <Button variant="contained">Add</Button>
+          <Button variant="contained" onClick={handleSubmit}>
+            Add
+          </Button>
         </Box>
         <BottomNavigationTab />
       </Box>

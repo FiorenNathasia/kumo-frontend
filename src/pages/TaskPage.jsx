@@ -59,6 +59,37 @@ function TaskPage() {
   useEffect(() => {
     fetchPageData();
   }, [id]);
+
+  const handleSave = async () => {
+    setIsSaving(true);
+    const token = localStorage.getItem("accessToken");
+    const editedFields = {
+      title,
+      categories: categoryName,
+      difficulty,
+      deadline: date,
+      notes,
+    };
+    try {
+      const { data } = await axios.put(
+        `${import.meta.env.VITE_API_URL}/api/task/${id}`,
+        editedFields,
+        {
+          headers: { Authorization: "Bearer " + token },
+        }
+      );
+      setIsSaving(false);
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleCategoryChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setCategoryName(typeof value === "string" ? value.split(",") : value);
+  };
   const difficultyLevel = ["easy", "medium", "hard"];
 
   const categories = [
@@ -143,7 +174,7 @@ function TaskPage() {
               id="demo-simple-select"
               value={categoryName}
               label="Category"
-              //   onChange={handleCategoryChange}
+              onChange={handleCategoryChange}
               renderValue={(selected) => selected.join(", ")}
             >
               {categories.map((category) => {
@@ -203,7 +234,9 @@ function TaskPage() {
             minRows={4}
             onChange={(e) => setNotes(e.target.value)}
           />
-          <Button variant="contained">Add</Button>
+          <Button variant="contained" onClick={handleSave}>
+            Add
+          </Button>
         </Box>
         <BottomNavigationTab />
       </Box>
