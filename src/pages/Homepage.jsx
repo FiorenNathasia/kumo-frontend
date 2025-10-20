@@ -1,14 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import {
-  Box,
-  Typography,
-  Stack,
-  Button,
-  BottomNavigation,
-} from "@mui/material";
-import MoodTasksList from "../components/MoodTasksLists/MoodTasksList";
+import { Box, Typography } from "@mui/material";
+import TaskList from "../components/TasksList/TaskList";
 import BottomNavigationTab from "../components/BottomNavigation/BottomNavigationTab";
 
 const Homepage = () => {
@@ -97,7 +91,7 @@ const Homepage = () => {
         >
           Hello
           <Typography>Welcome Back {user.firstName}</Typography>
-          <MoodTasksList tasks={taskList} fetchTasks={fetchTasksList} />
+          <TaskList tasks={taskList} fetchTasks={fetchTasksList} />
         </Box>
         <BottomNavigationTab />
       </Box>

@@ -1,5 +1,14 @@
+import axios from "axios";
+import { useEffect, useRef, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import BottomNavigationTab from "../components/BottomNavigation/BottomNavigationTab";
 import {
   Box,
+  Typography,
   Checkbox,
   FormControl,
   FormHelperText,
@@ -8,34 +17,48 @@ import {
   Select,
   Stack,
   TextField,
-  Typography,
   Button,
 } from "@mui/material";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import BottomNavigationTab from "../components/BottomNavigation/BottomNavigationTab";
-import { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-
-function AddTask() {
+import dayjs from "dayjs";
+function TaskPage() {
+  const { id } = useParams();
   const [title, setTitle] = useState("");
   const [categoryName, setCategoryName] = useState([]);
   const [difficulty, setDifficulty] = useState("");
   const [date, setDate] = useState(null);
   const [notes, setNotes] = useState("");
+  const [isLoading, setIsloading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const navigate = useNavigate();
 
-  const handleCategoryChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setCategoryName(typeof value === "string" ? value.split(",") : value);
+  const fetchTaskData = async () => {
+    const token = localStorage.getItem("accessToken");
+    try {
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/task/${id}`,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      setTitle(data.data.title);
+      setCategoryName(data.data.categories.map((c) => c.name));
+      setDifficulty(data.data.difficulty);
+      setDate(data.data.deadline ? dayjs(data.data.deadline) : null);
+      setNotes(data.data.notes || " ");
+      console.log(data.data);
+    } catch (error) {}
   };
 
+  const fetchPageData = async () => {
+    await fetchTaskData();
+    setIsloading(false);
+  };
+
+  useEffect(() => {
+    fetchPageData();
+  }, [id]);
   const difficultyLevel = ["easy", "medium", "hard"];
 
   const categories = [
@@ -76,7 +99,6 @@ function AddTask() {
       description: "Journaling, self-improvement, goal review",
     },
   ];
-
   return (
     <>
       <Box
@@ -121,7 +143,7 @@ function AddTask() {
               id="demo-simple-select"
               value={categoryName}
               label="Category"
-              onChange={handleCategoryChange}
+              //   onChange={handleCategoryChange}
               renderValue={(selected) => selected.join(", ")}
             >
               {categories.map((category) => {
@@ -188,4 +210,5 @@ function AddTask() {
     </>
   );
 }
-export default AddTask;
+
+export default TaskPage;
