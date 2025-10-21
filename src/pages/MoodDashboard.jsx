@@ -3,17 +3,18 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Box, Typography } from "@mui/material";
 import MoodTasksList from "../components/MoodTasksLists/MoodTasksList";
+import GradientBackground from "../components/GradientBackground/GradientBackground";
 
 function MoodDashboard() {
   const { id } = useParams();
   const [data, setData] = useState(null);
+  const [tone, setTone] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  console.log(id);
 
   useEffect(() => {
     if (!id) return;
-    const fecthData = async () => {
+    const fetchData = async () => {
       const token = localStorage.getItem("accessToken");
       setIsLoading(true);
       try {
@@ -26,48 +27,48 @@ function MoodDashboard() {
           }
         );
         setData(response.data);
-        console.log(response.data);
-        console.log(response.data.tasks);
+        setTone(response.data.recommendation.energy_level);
       } catch (error) {
         console.log(error);
       }
       setIsLoading(false);
     };
-    fecthData();
+    fetchData();
   }, [id]);
 
-  if (isLoading) {
+  if (isLoading || tone === null) {
     return <Typography>Loading...</Typography>;
   }
 
   return (
     <>
-      <Box
-        sx={{
-          width: "100vw",
-          height: "100vh",
-          backgroundColor: "lightblue",
-          position: "relative",
-          overflow: "hidden",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+      <GradientBackground tone={tone}>
         <Box
           sx={{
-            outline: "2px green solid",
-            width: { xs: 340, md: 500 },
-            maxHeight: "90vh",
-            overflow: "auto",
+            width: "100vw",
+            height: "100vh",
+            position: "relative",
+            overflow: "hidden",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
-          <Typography sx={{ outline: "red solid 2px" }}>
-            {data.recommendation.message}
-          </Typography>
-          <MoodTasksList tasks={data.tasks} />
+          <Box
+            sx={{
+              outline: "2px green solid",
+              width: { xs: 340, md: 500 },
+              maxHeight: "90vh",
+              overflow: "auto",
+            }}
+          >
+            <Typography sx={{ outline: "red solid 2px" }}>
+              {data.recommendation.message}
+            </Typography>
+            <MoodTasksList tasks={data.tasks} />
+          </Box>
         </Box>
-      </Box>
+      </GradientBackground>
     </>
   );
 }

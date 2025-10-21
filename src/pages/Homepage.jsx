@@ -4,6 +4,7 @@ import axios from "axios";
 import { Box, Typography } from "@mui/material";
 import TaskList from "../components/TasksList/TaskList";
 import BottomNavigationTab from "../components/BottomNavigation/BottomNavigationTab";
+import GradientBackground from "../components/GradientBackground/GradientBackground";
 
 const Homepage = () => {
   const [taskList, setTaskList] = useState([]);
