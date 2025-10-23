@@ -6,7 +6,7 @@ import Task from "../Task/Task";
 function TaskList({ tasks }) {
   return (
     <>
-      <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+      <List sx={{ width: "100%", maxWidth: 360 }}>
         {tasks.map((task) => {
           return <Task key={task.id} task={task} />;
         })}

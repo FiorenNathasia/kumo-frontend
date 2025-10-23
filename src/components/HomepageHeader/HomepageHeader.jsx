@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
-function MoodHeader({ message }) {
+
+function HomepageHeader({ firstName }) {
   return (
     <>
       <Box
@@ -35,10 +36,11 @@ function MoodHeader({ message }) {
           }}
           variant="h2"
         >
-          {message}
+          Welcome back {firstName}
         </Typography>
       </Box>
     </>
   );
 }
-export default MoodHeader;
+
+export default HomepageHeader;

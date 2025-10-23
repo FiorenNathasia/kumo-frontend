@@ -2,14 +2,15 @@ import { useState } from "react";
 import axios from "axios";
 import { format } from "date-fns";
 import {
-  Box,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Checkbox,
+  Card,
+  CardContent,
+  CardActions,
   Typography,
+  Box,
+  IconButton,
 } from "@mui/material";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 
 function MoodTask({ task }) {
   const [completed, setCompleted] = useState(task.completed);
@@ -21,8 +22,6 @@ function MoodTask({ task }) {
   const handleComplete = async () => {
     const token = localStorage.getItem("accessToken");
     const newStatus = !completed;
-
-    // Optimistically update the UI
     setCompleted(newStatus);
 
     try {
@@ -37,36 +36,56 @@ function MoodTask({ task }) {
   };
   return (
     <>
-      <ListItem key={task.id}>
-        <ListItemButton>
-          <ListItemIcon>
-            <Checkbox
-              edge="start"
-              checked={completed}
-              tabIndex={-1}
-              disableRipple
-              onChange={handleComplete}
-            />
-          </ListItemIcon>
-          <ListItemText
-            primary={
-              <Typography variant="subtitle1" fontWeight="bold">
+      <Card
+        variant="outlined"
+        sx={{
+          mb: 2,
+          p: 2,
+          borderRadius: 3,
+          boxShadow: completed ? 1 : 3,
+          opacity: completed ? 0.6 : 1,
+          transition: "all 0.2s ease-in-out",
+          "&:hover": {
+            boxShadow: 6,
+            transform: "translateY(-2px)",
+          },
+        }}
+      >
+        <CardContent>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              flexBasis: "row",
+              gap: "1rem",
+            }}
+          >
+            <IconButton onClick={handleComplete} color="primary">
+              {completed ? <CheckCircleIcon /> : <RadioButtonUncheckedIcon />}
+            </IconButton>
+            <Box sx={{ display: "flex", flexDirection: "column" }}>
+              <Typography
+                variant="subtitle1"
+                sx={{
+                  textDecoration: completed ? "line-through" : "none",
+                  fontWeight: "bold",
+                }}
+              >
                 {task.title}
               </Typography>
-            }
-            secondary={
-              <Box>
-                <Typography variant="body2" color="text.secondary">
+              {task.notes && (
+                <Typography variant="body2" sx={{ mt: 1 }}>
                   {task.notes}
                 </Typography>
-                <Typography variant="caption" color="text.secondary">
-                  Deadline: {formattedDeadline}
-                </Typography>
-              </Box>
-            }
-          />
-        </ListItemButton>
-      </ListItem>
+              )}
+              <Typography variant="caption" sx={{ display: "block", mt: 1 }}>
+                Deadline: {formattedDeadline}
+              </Typography>
+            </Box>
+          </Box>
+        </CardContent>
+        <CardActions></CardActions>
+      </Card>
     </>
   );
 }

@@ -4,7 +4,7 @@ import axios from "axios";
 import { Box, Typography } from "@mui/material";
 import TaskList from "../components/TasksList/TaskList";
 import BottomNavigationTab from "../components/BottomNavigation/BottomNavigationTab";
-import GradientBackground from "../components/GradientBackground/GradientBackground";
+import HomepageHeader from "../components/HomepageHeader/HomepageHeader";
 
 const Homepage = () => {
   const [taskList, setTaskList] = useState([]);
@@ -58,11 +58,6 @@ const Homepage = () => {
     fetchPageData();
   }, []);
 
-  const logout = () => {
-    localStorage.removeItem("accessToken");
-    navigate("/login");
-  };
-
   if (isLoading) {
     return <Typography>Loading...</Typography>;
   }
@@ -82,16 +77,17 @@ const Homepage = () => {
           alignItems: "center",
         }}
       >
+        <HomepageHeader firstName={user.firstName} />
         <Box
           sx={{
             outline: "2px green solid",
-            width: { xs: 340, md: 500 },
+            width: { xs: 330, md: 500 },
+            height: { xs: 370, md: 500 },
             maxHeight: "90vh",
             overflow: "auto",
+            marginTop: 16,
           }}
         >
-          Hello
-          <Typography>Welcome Back {user.firstName}</Typography>
           <TaskList tasks={taskList} fetchTasks={fetchTasksList} />
         </Box>
         <BottomNavigationTab />

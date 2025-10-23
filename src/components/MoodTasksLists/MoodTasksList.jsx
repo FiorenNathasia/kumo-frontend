@@ -16,7 +16,7 @@ import MoodTask from "../MoodTask/MoodTask";
 function MoodTasksList({ tasks }) {
   return (
     <>
-      <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+      <List sx={{ width: "100%" }}>
         {tasks.map((task) => {
           return <MoodTask key={task.id} task={task} />;
         })}

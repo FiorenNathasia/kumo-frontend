@@ -4,11 +4,15 @@ import axios from "axios";
 import { Box, Typography } from "@mui/material";
 import MoodTasksList from "../components/MoodTasksLists/MoodTasksList";
 import GradientBackground from "../components/GradientBackground/GradientBackground";
+import BottomNavigationTab from "../components/BottomNavigation/BottomNavigationTab";
+import MoodHeader from "../components/MoodHeader/MoodHeader";
+import GradientIntro from "../components/GradientIntro/GradientIntro";
 
 function MoodDashboard() {
   const { id } = useParams();
   const [data, setData] = useState(null);
   const [tone, setTone] = useState(null);
+  const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -28,6 +32,7 @@ function MoodDashboard() {
         );
         setData(response.data);
         setTone(response.data.recommendation.energy_level);
+        setMessage(response.data.recommendation.message);
       } catch (error) {
         console.log(error);
       }
@@ -42,33 +47,36 @@ function MoodDashboard() {
 
   return (
     <>
-      <GradientBackground tone={tone}>
+      <GradientIntro tone={tone}>
         <Box
           sx={{
             width: "100vw",
             height: "100vh",
             position: "relative",
-            overflow: "hidden",
+            overflow: "auto",
             display: "flex",
+            flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
           }}
         >
+          <MoodHeader message={message} />
+
           <Box
             sx={{
               outline: "2px green solid",
-              width: { xs: 340, md: 500 },
+              width: { xs: 310, md: 500 },
+              height: { xs: 370, md: 500 },
+              marginTop: { xs: 16 },
               maxHeight: "90vh",
               overflow: "auto",
             }}
           >
-            <Typography sx={{ outline: "red solid 2px" }}>
-              {data.recommendation.message}
-            </Typography>
             <MoodTasksList tasks={data.tasks} />
           </Box>
+          <BottomNavigationTab />
         </Box>
-      </GradientBackground>
+      </GradientIntro>
     </>
   );
 }

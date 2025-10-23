@@ -12,7 +12,7 @@ const GradientBackground = ({ tone, children }) => {
   } else if (tone <= 2.4) {
     color1 = "#f0fff0";
     color2 = "#b5e48c";
-    color3 = "#4caf50";
+    color3 = "#4caf50ff";
     color4 = "#2e7d32";
     color5 = "#1b5e20";
   } else {
@@ -25,6 +25,7 @@ const GradientBackground = ({ tone, children }) => {
 
   return (
     <div
+      key={tone}
       className="gradient-background"
       style={{
         "--color1": color1,

@@ -4,6 +4,7 @@ import { BottomNavigation, BottomNavigationAction } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import AddReactionIcon from "@mui/icons-material/AddReaction";
 import HomeIcon from "@mui/icons-material/Home";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 function BottomNavigationTab() {
   const navigate = useNavigate();
@@ -24,6 +25,11 @@ function BottomNavigationTab() {
 
   const moodpage = () => {
     navigate("/mood");
+  };
+
+  const logout = () => {
+    localStorage.removeItem("accessToken");
+    navigate("/login");
   };
   return (
     <>
@@ -55,6 +61,11 @@ function BottomNavigationTab() {
           label="Add Mood"
           value={moodpage}
           icon={<AddReactionIcon />}
+        />
+        <BottomNavigationAction
+          label="Logout"
+          value={logout}
+          icon={<LogoutIcon />}
         />
       </BottomNavigation>
     </>
