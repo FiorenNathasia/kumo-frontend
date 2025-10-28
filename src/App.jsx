@@ -4,7 +4,7 @@ import Signup from "./pages/Signup";
 import MoodDashboard from "./pages/MoodDashboard";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import Moodpage from "./pages/MoodPage";
-import Homepage from "./pages/Homepage";
+import TaskHomepage from "./pages/TaskHomePage";
 import AddTask from "./pages/AddTask";
 import TaskPage from "./pages/TaskPage";
 
@@ -18,7 +18,7 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/mood" element={<Moodpage />} />
             <Route path="/:id" element={<MoodDashboard />} />
-            <Route path="/" element={<Homepage />} />
+            <Route path="/" element={<TaskHomepage />} />
             <Route path="/addtask" element={<AddTask />} />
             <Route path="/task/:id" element={<TaskPage />} />
           </Route>

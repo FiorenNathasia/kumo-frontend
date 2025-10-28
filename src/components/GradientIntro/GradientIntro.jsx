@@ -6,8 +6,8 @@ import high from "../../assets/animation/high.json";
 import logo from "../../assets/logo/white.png";
 import GradientBackground from "../GradientBackground/GradientBackground";
 
-function GradientIntro({ tone, children }) {
-  const [showLottie, setShowLottie] = useState(true);
+function GradientIntro({ tone, children, showAnimation }) {
+  const [showLottie, setShowLottie] = useState(showAnimation);
 
   const getToneMessage = (tone) => {
     if (tone < 1.5) return "Let's take it slow today!";

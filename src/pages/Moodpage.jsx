@@ -37,13 +37,17 @@ function Moodpage() {
         entry,
         { headers: { Authorization: "Bearer " + token } }
       );
-
-      const { journalEntryId } = res.data;
-      console.log("API URL:", import.meta.env.VITE_API_URL);
-
-      navigate(`/${journalEntryId}`);
+      const journalEntryId = res.data.journalEntryId;
+      if (journalEntryId) {
+        localStorage.setItem("journalEntryId", journalEntryId.toString());
+      }
+      navigate(`/${journalEntryId}`, { state: { fromMoodPage: true } });
     } catch (error) {
-      console.log(error);
+      if (error.response?.status === 409) {
+        alert("You already submitted your mood today!");
+      } else {
+        console.error(error);
+      }
     }
     setIsSaving(false);
   };

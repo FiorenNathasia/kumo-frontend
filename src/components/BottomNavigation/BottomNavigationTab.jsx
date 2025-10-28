@@ -1,36 +1,33 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { BottomNavigation, BottomNavigationAction } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import AddReactionIcon from "@mui/icons-material/AddReaction";
 import HomeIcon from "@mui/icons-material/Home";
 import LogoutIcon from "@mui/icons-material/Logout";
+import EmojiObjectsIcon from "@mui/icons-material/EmojiObjects";
 
 function BottomNavigationTab() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [value, setValue] = useState("Home");
+  const [value, setValue] = useState(location.pathname);
+  const [journalEntryId, setJournalEntryId] = useState(null);
+
+  useEffect(() => {
+    const savedId = localStorage.getItem("journalEntryId");
+    if (savedId) setJournalEntryId(savedId);
+  }, []);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    if (newValue === "/logout") {
+      localStorage.removeItem("accessToken");
+      navigate("/login");
+    } else {
+      navigate(newValue);
+    }
   };
 
-  const homepage = () => {
-    navigate("/");
-  };
-
-  const taskpage = () => {
-    navigate("/addtask");
-  };
-
-  const moodpage = () => {
-    navigate("/mood");
-  };
-
-  const logout = () => {
-    localStorage.removeItem("accessToken");
-    navigate("/login");
-  };
   return (
     <>
       <BottomNavigation
@@ -48,23 +45,30 @@ function BottomNavigationTab() {
         onChange={handleChange}
       >
         <BottomNavigationAction
-          label="Home"
-          value={homepage}
+          label="Task Homepage"
+          value="/"
           icon={<HomeIcon />}
         />
+
+        <BottomNavigationAction
+          label="Today's Recommendation"
+          value={`/${journalEntryId}`}
+          icon={<EmojiObjectsIcon />}
+        />
+
         <BottomNavigationAction
           label="Add Task"
-          value={taskpage}
+          value="/addtask"
           icon={<AddCircleIcon />}
         />
         <BottomNavigationAction
           label="Add Mood"
-          value={moodpage}
+          value="/mood"
           icon={<AddReactionIcon />}
         />
         <BottomNavigationAction
           label="Logout"
-          value={logout}
+          value="/logout"
           icon={<LogoutIcon />}
         />
       </BottomNavigation>

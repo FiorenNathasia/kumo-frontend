@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Box, Typography } from "@mui/material";
@@ -10,6 +10,8 @@ import GradientIntro from "../components/GradientIntro/GradientIntro";
 
 function MoodDashboard() {
   const { id } = useParams();
+  const location = useLocation();
+  const fromMoodPage = location.state?.fromMoodPage;
   const [data, setData] = useState(null);
   const [tone, setTone] = useState(null);
   const [message, setMessage] = useState("");
@@ -47,7 +49,7 @@ function MoodDashboard() {
 
   return (
     <>
-      <GradientIntro tone={tone}>
+      <GradientIntro tone={tone} showAnimation={fromMoodPage}>
         <Box
           sx={{
             width: "100vw",
