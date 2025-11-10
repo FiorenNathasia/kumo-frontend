@@ -64,11 +64,9 @@ function Task({ task, fetchTasks, index, cardHeight }) {
         sx={{
           position: "absolute",
           bottom: index * cardHeight,
-          width: 500,
-          mb: 2,
+          width: { xs: 320, md: 480 },
           p: 2,
           borderRadius: 3,
-          boxShadow: completed ? 1 : 3,
           opacity: completed ? 1 : 1,
           transition: "all 0.3s ease",
           zIndex: 100 - index,

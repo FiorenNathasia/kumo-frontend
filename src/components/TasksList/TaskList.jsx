@@ -1,19 +1,20 @@
-import { useEffect, useRef } from "react";
-import axios from "axios";
-import { List, Box } from "@mui/material";
+import { Box } from "@mui/material";
 import Task from "../Task/Task";
 
 function TaskList({ tasks, fetchTasks }) {
-  const cardHeight = 120;
-  const containerHeight = Math.max(tasks.length * cardHeight, 400);
+  const cardHeight = 70;
 
   return (
     <>
       <Box
         sx={{
+          display: "flex",
+          flexDirection: "column-reverse",
+          justifyContent: "center",
+          width: { xs: 330, md: 500 },
+          height: { xs: 370, md: 600 },
+          overflow: "auto",
           position: "relative",
-          width: 320,
-          height: containerHeight,
         }}
       >
         {tasks.map((task, index) => {

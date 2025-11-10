@@ -83,18 +83,22 @@ const Homepage = () => {
 
         <Box
           sx={{
+            display: "flex",
+            justifyContent: "center",
             outline: "2px green solid",
-            width: { xs: 330, md: 500 },
-            height: { xs: 370, md: 600 },
+            width: { xs: 340, md: 500 },
+            height: { xs: 390, md: 650 },
             maxHeight: "90vh",
-            overflow: "auto",
-            marginTop: { xs: 16, md: 0 },
+            overflow: "hidden",
+            marginTop: { xs: 10, md: 0 },
+            p: 1,
           }}
         >
           <TaskList tasks={taskList} fetchTasks={fetchTasksList} />
         </Box>
         <AddTaskButton />
         <Sidebar />
+
         <BottomNavigationTab />
       </Box>
     </>
