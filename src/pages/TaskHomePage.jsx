@@ -27,7 +27,6 @@ const Homepage = () => {
         }
       );
       setUser(data.data);
-      console.log(data);
     } catch (error) {
       console.log(error);
     }

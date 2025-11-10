@@ -2,7 +2,8 @@ import { Box } from "@mui/material";
 import Task from "../Task/Task";
 
 function TaskList({ tasks, fetchTasks }) {
-  const cardHeight = 70;
+  const cardHeight = 200;
+  const overlap = 105;
 
   return (
     <>
@@ -25,6 +26,7 @@ function TaskList({ tasks, fetchTasks }) {
               fetchTasks={fetchTasks}
               index={index}
               cardHeight={cardHeight}
+              overlap={overlap}
             />
           );
         })}
