@@ -17,6 +17,7 @@ import BottomNavigationTab from "../components/BottomNavigation/BottomNavigation
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Sidebar from "../components/Sidebar/Sidebar";
 
 function AddTask() {
   const [title, setTitle] = useState("");
@@ -119,7 +120,7 @@ function AddTask() {
           noValidate
           autoComplete="off"
           sx={{
-            width: 250,
+            width: { xs: 260, md: 400 },
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
@@ -130,67 +131,84 @@ function AddTask() {
           <TextField
             required
             fullWidth
+            variant="standard"
             id="outlined-required"
             label="Task"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
-          <FormControl fullWidth required>
-            <InputLabel id="demo-simple-select-label">Category</InputLabel>
-            <Select
-              multiple
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={categoryName}
-              label="Category"
-              onChange={handleCategoryChange}
-              renderValue={(selected) => selected.join(", ")}
-            >
-              {categories.map((category) => {
-                return (
-                  <MenuItem key={category.name} value={category.name}>
-                    <Box>
-                      <Checkbox
-                        checked={categoryName.includes(category.name)}
-                      />
-                      <Typography variant="subtitle1" fontWeight="bold">
-                        {category.name}
-                      </Typography>
-                      <Typography variant="body2" sx={{ whiteSpace: "normal" }}>
-                        {category.description}
-                      </Typography>
-                    </Box>
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
-          <FormControl required sx={{ m: 1, minWidth: 120 }} fullWidth>
-            <InputLabel id="demo-simple-select-required-label">
-              Difficulty
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-required-label"
-              id="demo-simple-select-required"
-              value={difficulty}
-              label="Difficulty"
-              onChange={(e) => setDifficulty(e.target.value)}
-            >
-              {difficultyLevel.map((level) => {
-                return (
-                  <MenuItem key={level} value={level}>
-                    {level}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              width: { xs: "16.75rem", md: "26rem" },
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            {" "}
+            <FormControl fullWidth required sx={{ m: 1, mb: 0, minWidth: 100 }}>
+              <InputLabel id="demo-simple-select-label">Category</InputLabel>
+              <Select
+                multiple
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={categoryName}
+                label="Category"
+                onChange={handleCategoryChange}
+                renderValue={(selected) => selected.join(", ")}
+              >
+                {categories.map((category) => {
+                  return (
+                    <MenuItem key={category.name} value={category.name}>
+                      <Box>
+                        <Checkbox
+                          checked={categoryName.includes(category.name)}
+                        />
+                        <Typography variant="subtitle1" fontWeight="bold">
+                          {category.name}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{ whiteSpace: "normal" }}
+                        >
+                          {category.description}
+                        </Typography>
+                      </Box>
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+            <FormControl required sx={{ m: 1, mb: 0, minWidth: 100 }} fullWidth>
+              <InputLabel id="demo-simple-select-required-label">
+                Difficulty
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-required-label"
+                id="demo-simple-select-required"
+                value={difficulty}
+                label="Difficulty"
+                onChange={(e) => setDifficulty(e.target.value)}
+              >
+                {difficultyLevel.map((level) => {
+                  return (
+                    <MenuItem key={level} value={level}>
+                      {level}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+          </Box>
+
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={["DatePicker"]}>
               <DatePicker
                 label="Deadline*"
                 value={date}
                 onChange={(newDate) => setDate(newDate)}
+                sx={{ width: { xs: 257, md: 400 } }}
               />
             </DemoContainer>
           </LocalizationProvider>
@@ -200,13 +218,19 @@ function AddTask() {
             multiline
             label="Notes"
             value={notes}
-            minRows={4}
+            minRows={6}
             onChange={(e) => setNotes(e.target.value)}
+            sx={{
+              m: 1,
+              width: { xs: "15.75rem", md: "25rem" },
+              height: { xs: "10rem" },
+            }}
           />
           <Button variant="contained" onClick={handleSubmit}>
             Add
           </Button>
         </Box>
+        <Sidebar />
         <BottomNavigationTab />
       </Box>
     </>

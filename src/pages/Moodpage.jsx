@@ -1,17 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import {
-  Box,
-  Link,
-  Typography,
-  TextField,
-  Stack,
-  Button,
-  BottomNavigation,
-} from "@mui/material";
+import { Box, TextField, Button } from "@mui/material";
 import MoodSelector from "../components/MoodSelector/MoodSelector";
 import BottomNavigationTab from "../components/BottomNavigation/BottomNavigationTab";
+import Sidebar from "../components/Sidebar/Sidebar";
+import AddTaskButton from "../components/AddTaskButton/AddTaskButton";
 
 function Moodpage() {
   const [selectedMoods, setSelectedMoods] = useState([]);
@@ -99,6 +93,8 @@ function Moodpage() {
             Submit
           </Button>
         </Box>
+        <AddTaskButton />
+        <Sidebar />
         <BottomNavigationTab />
       </Box>
     </>

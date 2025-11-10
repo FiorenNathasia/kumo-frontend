@@ -12,9 +12,12 @@ import {
 } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
+import DeleteIcon from "@mui/icons-material/Delete";
 
-function Task({ task }) {
+function Task({ task, fetchTasks, index, cardHeight }) {
   const [completed, setCompleted] = useState(task.completed);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [error, setError] = useState(null);
 
   const formattedDeadline = task.deadline
     ? format(new Date(task.deadline), "d MMM, yyyy")
@@ -35,23 +38,50 @@ function Task({ task }) {
       setCompleted(!newStatus);
     }
   };
+
+  const handleDelete = async () => {
+    setIsDeleting(true);
+    const token = localStorage.getItem("accessToken");
+    try {
+      await axios.delete(
+        `${import.meta.env.VITE_API_URL}/api/task/${task.id}`,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      await fetchTasks();
+    } catch (error) {
+      console.log(error);
+    }
+    setIsDeleting(false);
+  };
   return (
     <>
       <Card
         variant="outlined"
         sx={{
+          position: "absolute",
+          bottom: index * cardHeight,
+          width: 500,
           mb: 2,
           p: 2,
           borderRadius: 3,
           boxShadow: completed ? 1 : 3,
-          opacity: completed ? 0.6 : 1,
-          transition: "all 0.2s ease-in-out",
+          opacity: completed ? 1 : 1,
+          transition: "all 0.3s ease",
+          zIndex: 100 - index,
+          overflow: "hidden",
           "&:hover": {
-            boxShadow: 6,
-            transform: "translateY(-2px)",
+            transform: "translateY(-8px)",
+            zIndex: 200,
           },
         }}
       >
+        <IconButton onClick={handleComplete} color="primary">
+          {completed ? <CheckCircleIcon /> : <RadioButtonUncheckedIcon />}
+        </IconButton>
         <CardContent
           key={task.id}
           component={RouterLink}
@@ -65,10 +95,6 @@ function Task({ task }) {
               gap: "1rem",
             }}
           >
-            <IconButton onClick={handleComplete} color="primary">
-              {" "}
-              {completed ? <CheckCircleIcon /> : <RadioButtonUncheckedIcon />}
-            </IconButton>
             <Box sx={{ display: "flex", flexDirection: "column" }}>
               <Typography
                 variant="subtitle1"
@@ -90,7 +116,20 @@ function Task({ task }) {
             </Box>
           </Box>
         </CardContent>
-        <CardActions></CardActions>
+        <CardActions>
+          <IconButton variant="contained" color="neutral" sx={{ mr: "auto" }}>
+            <DeleteIcon
+              variant="contained"
+              onClick={handleDelete}
+              // disabled={isDeleting}
+              sx={{
+                fontSize: "1.5rem",
+                color: "#919192",
+                display: "flex",
+              }}
+            ></DeleteIcon>
+          </IconButton>
+        </CardActions>
       </Card>
     </>
   );

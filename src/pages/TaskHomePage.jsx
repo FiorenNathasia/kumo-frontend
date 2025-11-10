@@ -5,6 +5,8 @@ import { Box, Typography } from "@mui/material";
 import TaskList from "../components/TasksList/TaskList";
 import BottomNavigationTab from "../components/BottomNavigation/BottomNavigationTab";
 import HomepageHeader from "../components/HomepageHeader/HomepageHeader";
+import Sidebar from "../components/Sidebar/Sidebar";
+import AddTaskButton from "../components/AddTaskButton/AddTaskButton";
 
 const Homepage = () => {
   const [taskList, setTaskList] = useState([]);
@@ -78,18 +80,21 @@ const Homepage = () => {
         }}
       >
         <HomepageHeader firstName={user.firstName} />
+
         <Box
           sx={{
             outline: "2px green solid",
             width: { xs: 330, md: 500 },
-            height: { xs: 370, md: 500 },
+            height: { xs: 370, md: 600 },
             maxHeight: "90vh",
             overflow: "auto",
-            marginTop: 16,
+            marginTop: { xs: 16, md: 0 },
           }}
         >
           <TaskList tasks={taskList} fetchTasks={fetchTasksList} />
         </Box>
+        <AddTaskButton />
+        <Sidebar />
         <BottomNavigationTab />
       </Box>
     </>

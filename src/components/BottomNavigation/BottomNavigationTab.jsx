@@ -32,6 +32,7 @@ function BottomNavigationTab() {
     <>
       <BottomNavigation
         sx={{
+          display: { xs: "flex", sm: "none" },
           width: "100%",
           height: 70,
           position: "fixed",

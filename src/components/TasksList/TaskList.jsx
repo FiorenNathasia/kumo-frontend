@@ -1,16 +1,33 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import axios from "axios";
-import { List } from "@mui/material";
+import { List, Box } from "@mui/material";
 import Task from "../Task/Task";
 
-function TaskList({ tasks }) {
+function TaskList({ tasks, fetchTasks }) {
+  const cardHeight = 120;
+  const containerHeight = Math.max(tasks.length * cardHeight, 400);
+
   return (
     <>
-      <List sx={{ width: "100%", maxWidth: 360 }}>
-        {tasks.map((task) => {
-          return <Task key={task.id} task={task} />;
+      <Box
+        sx={{
+          position: "relative",
+          width: 320,
+          height: containerHeight,
+        }}
+      >
+        {tasks.map((task, index) => {
+          return (
+            <Task
+              key={task.id}
+              task={task}
+              fetchTasks={fetchTasks}
+              index={index}
+              cardHeight={cardHeight}
+            />
+          );
         })}
-      </List>
+      </Box>
     </>
   );
 }

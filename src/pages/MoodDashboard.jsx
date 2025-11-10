@@ -3,10 +3,11 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Box, Typography } from "@mui/material";
 import MoodTasksList from "../components/MoodTasksLists/MoodTasksList";
-import GradientBackground from "../components/GradientBackground/GradientBackground";
 import BottomNavigationTab from "../components/BottomNavigation/BottomNavigationTab";
 import MoodHeader from "../components/MoodHeader/MoodHeader";
 import GradientIntro from "../components/GradientIntro/GradientIntro";
+import Sidebar from "../components/Sidebar/Sidebar";
+import AddTaskButton from "../components/AddTaskButton/AddTaskButton";
 
 function MoodDashboard() {
   const { id } = useParams();
@@ -68,14 +69,16 @@ function MoodDashboard() {
             sx={{
               outline: "2px green solid",
               width: { xs: 310, md: 500 },
-              height: { xs: 370, md: 500 },
-              marginTop: { xs: 16 },
+              height: { xs: 370, md: 600 },
+              marginTop: { xs: 16, md: 0 },
               maxHeight: "90vh",
               overflow: "auto",
             }}
           >
             <MoodTasksList tasks={data.tasks} />
           </Box>
+          <AddTaskButton />
+          <Sidebar />
           <BottomNavigationTab />
         </Box>
       </GradientIntro>
