@@ -85,8 +85,8 @@ function Task({ task, fetchTasks, index, cardHeight, overlap }) {
           zIndex: 100 - index,
           overflow: "hidden",
           "&:hover": {
-            transform: "translateY(-8px)",
-            zIndex: 200,
+            transform: "translateY(-4px)",
+            boxShadow: "0 6px 12px rgba(0,0,0,0.15)",
           },
         }}
       >

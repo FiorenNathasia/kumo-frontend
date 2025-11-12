@@ -34,6 +34,7 @@ function MoodDashboard() {
           }
         );
         setData(response.data);
+        console.log(response.data);
         setTone(response.data.recommendation.energy_level);
         setMessage(response.data.recommendation.message);
       } catch (error) {
@@ -67,15 +68,21 @@ function MoodDashboard() {
 
           <Box
             sx={{
+              display: "flex",
+              justifyContent: "center",
               outline: "2px green solid",
-              width: { xs: 310, md: 500 },
-              height: { xs: 370, md: 600 },
-              marginTop: { xs: 16, md: 0 },
+              width: { xs: 340, md: 500 },
+              height: { xs: 390, md: 650 },
               maxHeight: "90vh",
-              overflow: "auto",
+              overflow: "hidden",
+              marginTop: { xs: 10, md: 0 },
+              p: 1,
             }}
           >
-            <MoodTasksList tasks={data.tasks} />
+            <MoodTasksList
+              tasks={data.tasks}
+              categories={data.tasksCategories}
+            />
           </Box>
           <AddTaskButton />
           <Sidebar />
